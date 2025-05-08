@@ -1,44 +1,29 @@
 # Decentralized MultiSig Wallet
 
-## What is a MultiSig Wallet?
-A Multi-Signature (MultiSig) wallet is like a digital safe that requires multiple people to agree before any money can be spent. Think of it as a bank vault that needs multiple keys to open, making it more secure than a wallet that only needs one person's approval.
+A decentralized multi-signature wallet implementation using Hardhat, Solidity, and React. This wallet requires multiple confirmations before executing transactions, making it more secure for managing shared funds.
 
-## Why Use This?
-- **Extra Security**: Even if one owner's account is compromised, funds remain safe
-- **Group Control**: Perfect for managing company funds or group savings
-- **Transparency**: All transaction attempts are visible to all owners
-- **Trust Minimization**: No single person can run away with the funds
+## Features
 
-## Features Explained
-1. **Multiple Owners**
-   - Like having multiple bank account signatories
-   - Each owner has equal rights to propose and confirm transactions
+- Multiple owner management
+- Required number of confirmations for transactions
+- Submit, confirm, and execute transactions
+- Deposit ETH functionality
+- Real-time balance and transaction updates
+- MetaMask integration
 
-2. **Transaction Confirmation**
-   - When someone wants to send money, others must approve
-   - Example: If there are 3 owners, 2 might need to approve before money moves
+## Prerequisites
 
-3. **Real-time Updates**
-   - See transaction requests instantly
-   - Track who has confirmed what
-   - Monitor wallet balance in real-time
+- Node.js v14+ and npm
+- MetaMask browser extension
+- Hardhat for local blockchain development
 
-## How to Use This Wallet
+## Setup
 
-### Step 1: Setting Up
-1. Make sure you have installed:
-   - [Node.js](https://nodejs.org/) (version 14 or higher)
-   - [MetaMask](https://metamask.io/) browser extension
-   - [Git](https://git-scm.com/) for downloading the code
-
-2. Open your terminal and run these commands:
-   ```bash
-   # Get the project files
-   git clone https://github.com/yourusername/multisig-wallet.git
-   cd multisig-wallet
-
-   # Install required software
-   npm install
-   ```
+1. Install dependencies:
+```bash
+npm install
+cd frontend
+npm install
+```
 
 

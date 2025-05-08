@@ -1,18 +1,26 @@
 import React from 'react';
-import { VStack } from '@chakra-ui/react';
-import Header from './components/Header';
+import { ChakraProvider, Container, VStack, Heading } from '@chakra-ui/react';
+import { Web3Provider } from './context/Web3Context';
 import WalletInfo from './components/WalletInfo';
-import CreateTransaction from './components/CreateTransaction';
+import DepositForm from './components/DepositForm';
+import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
 
 function App() {
   return (
-    <VStack spacing={8} p={4}>
-      <Header />
-      <WalletInfo />
-      <CreateTransaction />
-      <TransactionList />
-    </VStack>
+    <ChakraProvider>
+      <Web3Provider>
+        <Container maxW="container.md" py={8}>
+          <VStack spacing={6}>
+            <Heading>MultiSig Wallet</Heading>
+            <WalletInfo />
+            <DepositForm />
+            <TransactionForm />
+            <TransactionList />
+          </VStack>
+        </Container>
+      </Web3Provider>
+    </ChakraProvider>
   );
 }
 

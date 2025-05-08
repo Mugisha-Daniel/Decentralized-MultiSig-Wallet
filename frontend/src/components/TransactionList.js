@@ -1,52 +1,66 @@
-import React, { useEffect } from 'react';
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text } from '@chakra-ui/react';
+import React from 'react';
 import { useWeb3 } from '../context/Web3Context';
-import { ethers } from 'ethers';
+import {
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Button,
+  Badge,
+  Text
+} from '@chakra-ui/react';
 
 function TransactionList() {
-  const { transactions, contract, provider, updateTransactions } = useWeb3();
+  const { transactions, contract, account } = useWeb3();
 
-  useEffect(() => {
-    if (contract && provider) {
-      updateTransactions();
-
-      // Listen for new transaction submissions
-      contract.on('SubmitTransaction', () => {
-        updateTransactions();
-      });
-
-      return () => {
-        contract.removeAllListeners('SubmitTransaction');
-      };
+  const handleConfirm = async (txId) => {
+    try {
+      await contract.confirmTransaction(txId);
+    } catch (error) {
+      console.error('Error confirming transaction:', error);
     }
-  }, [contract, provider]);
+  };
 
   return (
-    <Box w="full" maxW="container.md" p={6} bg="white" rounded="lg" shadow="md">
-      <Text fontSize="xl" fontWeight="bold" mb={4}>Transactions ({transactions.length})</Text>
+    <Box p={6} borderWidth="1px" borderRadius="lg">
+      <Text fontSize="xl" mb={4}>Transactions</Text>
       <Table variant="simple">
         <Thead>
           <Tr>
             <Th>ID</Th>
-            <Th>To</Th>
-            <Th>Value (ETH)</Th>
+            <Th>Amount (ETH)</Th>
+            <Th>Confirmations</Th>
             <Th>Status</Th>
+            <Th>Action</Th>
           </Tr>
         </Thead>
         <Tbody>
           {transactions.map((tx) => (
             <Tr key={tx.id}>
               <Td>{tx.id}</Td>
-              <Td>{tx.to.slice(0, 6)}...{tx.to.slice(-4)}</Td>
-              <Td>{ethers.utils.formatEther(tx.value)}</Td>
-              <Td>{tx.executed ? 'Executed' : `${tx.numConfirmations} confirmations`}</Td>
+              <Td>{tx.value}</Td>
+              <Td>{tx.numConfirmations}/3</Td>
+              <Td>
+                <Badge colorScheme={tx.executed ? 'green' : 'yellow'}>
+                  {tx.executed ? 'Executed' : 'Pending'}
+                </Badge>
+              </Td>
+              <Td>
+                {!tx.executed && (
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    onClick={() => handleConfirm(tx.id)}
+                  >
+                    Confirm
+                  </Button>
+                )}
+              </Td>
             </Tr>
           ))}
-          {transactions.length === 0 && (
-            <Tr>
-              <Td colSpan={4} textAlign="center">No transactions yet</Td>
-            </Tr>
-          )}
         </Tbody>
       </Table>
     </Box>
